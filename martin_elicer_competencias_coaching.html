@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación de competencias · Martín Elicer</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --buk-blue:      #2f4daa;
+    --buk-blue-dark: #2b3b6a;
+    --buk-blue-mid1: #2e6ec9;
+    --buk-blue-light:#d9e3fc;
+    --buk-yellow:    #f9b82c;
+    --ink:    #1a1917;
+    --ink2:   #4a4742;
+    --ink3:   #8a8680;
+    --paper:  #f5f7fc;
+    --white:  #ffffff;
+    --line:   #e2e8f5;
+    --green:  #1e7a47;
+    --green-l:#e6f4ed;
+    --amber:  #a0620a;
+    --amber-l:#fef5e4;
+    --red:    #b83232;
+    --red-l:  #fdf0ee;
+    --r: 10px;
+    --r-sm: 6px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--paper); color: var(--ink); font-size: 15px; line-height: 1.65; }
+
+  .hero { background: linear-gradient(135deg, var(--buk-blue-dark) 0%, var(--buk-blue) 60%, var(--buk-blue-mid1) 100%); color: #fff; padding: 2.75rem 2rem 2.25rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(217,227,252,0.07); pointer-events: none; }
+  .hero::after { content: ';)'; position: absolute; bottom: -20px; right: 2rem; font-size: 110px; font-weight: 700; color: rgba(249,184,44,0.12); letter-spacing: -4px; pointer-events: none; line-height: 1; }
+  .hero-inner { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-label { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; opacity: 0.7; margin-bottom: 14px; }
+  .hero-label::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--buk-yellow); border-radius: 2px; }
+  .hero-name { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 6px; }
+  .hero-sub { font-size: 15px; opacity: 0.7; }
+
+  .main { max-width: 880px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--buk-blue); margin-bottom: 8px; }
+  .eyebrow::before { content: ''; display: inline-block; width: 16px; height: 2px; background: var(--buk-yellow); border-radius: 2px; }
+  .sec-heading { font-size: 24px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .sec-desc { font-size: 14px; color: var(--ink2); line-height: 1.75; margin-bottom: 2rem; max-width: 660px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.5rem; }
+  .metric-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--r); padding: 1.2rem 1.35rem; }
+  .metric-card .m-label { font-size: 11px; font-weight: 600; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .metric-card .m-val { font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1; }
+  .metric-card .m-sub { font-size: 12px; color: var(--ink2); margin-top: 5px; line-height: 1.5; }
+  .m-val.amber { color: var(--amber); }
+  .m-val.blue { color: var(--buk-blue); }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 1.75rem; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .callout { border-radius: var(--r); padding: 1.1rem 1.35rem; margin-bottom: 1.75rem; display: flex; gap: 14px; }
+  .cl-blue { background: var(--buk-blue-light); border-left: 4px solid var(--buk-blue); }
+  .callout-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .callout h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .callout p  { font-size: 13px; color: var(--ink2); line-height: 1.7; }
+
+  /* Competency cards */
+  .comp-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--r); margin-bottom: 14px; overflow: hidden; }
+  .comp-top { display: flex; align-items: center; gap: 16px; padding: 1.15rem 1.35rem; border-bottom: 1px solid var(--line); }
+  .comp-score-badge {
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex-shrink: 0; border: 3px solid;
+  }
+  .comp-score-badge .csb-val { font-size: 19px; font-weight: 700; line-height: 1; }
+  .comp-score-badge .csb-of  { font-size: 9px; opacity: 0.7; }
+  .s2 { border-color: var(--amber); color: var(--amber); background: var(--amber-l); }
+  .s3 { border-color: var(--buk-blue-mid1); color: var(--buk-blue-mid1); background: var(--buk-blue-light); }
+  .s4 { border-color: var(--green); color: var(--green); background: var(--green-l); }
+  .comp-title-block { flex: 1; }
+  .comp-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .comp-level { font-size: 12px; font-weight: 600; }
+  .comp-level.s2 { color: var(--amber); background: none; border: none; padding: 0; }
+  .comp-level.s3 { color: var(--buk-blue-mid1); background: none; border: none; padding: 0; }
+  .comp-level.s4 { color: var(--green); background: none; border: none; padding: 0; }
+  .comp-weight { font-size: 11px; color: var(--ink3); text-align: right; flex-shrink: 0; }
+  .comp-weight strong { display: block; font-size: 16px; color: var(--ink2); }
+  .comp-body { padding: 1.15rem 1.35rem; }
+  .comp-def { font-size: 12px; color: var(--ink3); line-height: 1.6; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--line); }
+  .comp-comment-label { font-size: 11px; font-weight: 700; color: var(--buk-blue); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .comp-comment { font-size: 13px; color: var(--ink); line-height: 1.75; }
+
+  .total-card { background: var(--buk-blue-light); border: 2px solid var(--buk-blue); border-radius: var(--r); padding: 1.5rem; display: flex; align-items: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .total-card .tc-val { font-size: 38px; font-weight: 700; color: var(--buk-blue-dark); line-height: 1; }
+  .total-card .tc-text h4 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .total-card .tc-text p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+  .footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--ink3); border-top: 1px solid var(--line); margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .footer-logo { font-weight: 700; color: var(--buk-blue); font-size: 16px; }
+  .footer-smiley { color: var(--buk-yellow); font-weight: 700; font-size: 16px; }
+
+  @media (max-width: 640px) {
+    .hero-name { font-size: 24px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .comp-top { flex-wrap: wrap; }
+    .total-card { flex-direction: column; text-align: center; }
+    .main { padding: 1.5rem 1rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Buk Finanzas · Conversación de desarrollo</div>
+    <div class="hero-name">Martín Elicer</div>
+    <div class="hero-sub">Evaluación de competencias · Primera medición · Junio 2026</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="eyebrow">Para revisar juntos</div>
+  <div class="sec-heading">Dónde estamos y en qué nos vamos a enfocar</div>
+  <div class="sec-desc">Esta es tu primera medición de competencias. El objetivo de esta conversación no es solo mostrarte el número — es que entendamos juntos en qué estás más sólido hoy y en qué vamos a trabajar de forma concreta en los próximos meses.</div>
+
+  <div class="grid-2">
+    <div class="metric-card">
+      <div class="m-label">Resultado obtenido</div>
+      <div class="m-val amber">62%</div>
+      <div class="m-sub">114 de 185 puntos posibles</div>
+    </div>
+    <div class="metric-card">
+      <div class="m-label">Resultado ideal</div>
+      <div class="m-val blue">75%</div>
+      <div class="m-sub">Estándar esperado para esta etapa del rol</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--green);"></span>4–5 · Sobresaliente / Excepcional</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--buk-blue-mid1);"></span>3 · En lo esperado</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--amber);"></span>2 · Se puede desarrollar</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--red);"></span>1 · Bajo lo esperado</div>
+  </div>
+
+  <div id="comp-container"></div>
+
+  <div class="total-card">
+    <div class="tc-val">62%</div>
+    <div class="tc-text">
+      <h4>Resultado total — 114 de 185 puntos</h4>
+      <p>Sobre el ideal de 75%. Esta misma medición se vuelve a hacer más adelante para ver juntos el avance real.</p>
+    </div>
+  </div>
+
+  <div class="callout cl-blue" style="margin-top:1.75rem;">
+    <div class="callout-icon">🎯</div>
+    <div>
+      <h4>El foco de los próximos meses</h4>
+      <p>Curiosidad es hoy tu fortaleza más clara. El punto donde vamos a poner más energía juntos es Adaptación al cambio — flexibilizar el discurso comercial según cada cliente, en vez de apoyarte en un pitch más estructurado. Eso, junto con afianzar Coachability (autodiagnosticar antes de que te lo señalen) y Agilidad (gestión más autónoma del día a día), es lo que va a mover el número de 62% a 75% o más en la próxima medición.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span class="footer-logo">buk</span>
+  <span class="footer-smiley">;)</span>
+  <span>Evaluación de competencias · Buk Finanzas · Junio 2026</span>
+</div>
+
+<script>
+const competencies = [
+  {
+    name: 'Coachability',
+    def: 'Habilidad para absorber (aceptar) y aplicar los feedbacks que va recibiendo. Habilidad para autodiagnosticar sus fortalezas y oportunidades de mejora.',
+    score: 3, weight: 8,
+    comment: 'Muestra buena disposición y apertura para recibir feedback del equipo, pero presenta una brecha relevante en autocrítica. Le cuesta identificar por sí mismo sus propias fortalezas y oportunidades de mejora — necesita que se las señalen para reaccionar, en vez de detectarlas de forma proactiva.'
+  },
+  {
+    name: 'Curiosidad',
+    def: 'Habilidad de entender el contexto del prospecto por medio de preguntas efectivas y escucha. Un buen vendedor es naturalmente curioso. Hace buenísimas preguntas, escucha con atención, e indaga en puntos de interés.',
+    score: 4, weight: 8,
+    comment: 'Muestra una curiosidad genuina hacia el contexto del prospecto. Cuando aplica esta habilidad, hace preguntas efectivas que le permiten adaptar la conversación a la necesidad real del cliente — se ve reflejado en sus reuniones con mejor desempeño. El espacio de mejora está en hacerlo de forma consistente en el 100% de las reuniones, no solo en algunas.'
+  },
+  {
+    name: 'Agilidad',
+    def: 'Capacidad de realizar rápida y efectivamente las tareas propuestas. Determinar eficazmente las metas y prioridades de su tarea y/o proyecto, estipulando la acción, plazos y recursos requeridos. Gestión ágil comercial: responder correos, preparar presentaciones, hacer seguimientos, hacer buen uso del CRM.',
+    score: 3, weight: 8,
+    comment: 'Cumple con lo esperado en la ejecución de tareas comerciales del día a día — seguimientos, correos, uso del CRM. Lo que todavía no se observa con consistencia es la proactividad para priorizar y organizar su propia carga de trabajo sin que se le indique. El nivel de energía y actividad está presente, pero falta que se traduzca en una gestión más autónoma y ordenada de sus tiempos.'
+  },
+  {
+    name: 'Habilidades cognitivas',
+    def: 'Habilidad de aprender conceptos complejos rápido y comunicar esos conceptos de una forma fácil de entender. Ser profundo en el manejo de la plataforma, entendiendo a cabalidad cada una de las funcionalidades.',
+    score: 3, weight: 8,
+    comment: 'Tiene un dominio técnico del producto consistente y comunica los conceptos con claridad cuando responde preguntas de los clientes, incluso las complejas. Lo que está en lo esperado pero sin destacar todavía es la profundidad en el manejo completo de la plataforma — hay funcionalidades donde se apoya en otros en vez de sostener la respuesta él mismo. Con más tiempo y exposición, este puntaje tiene margen claro para subir.'
+  },
+  {
+    name: 'Adaptación al cambio',
+    def: 'Capacidad para comprender, sobreponerse y adaptarse a los distintos cambios que se pueden originar en el entorno. Habilidad para poder adaptarse al cambio, cambiar el discurso comercial dependiendo del buyer persona.',
+    score: 2, weight: 5,
+    comment: 'Es la competencia donde se observa la brecha más clara. Buk Finanzas es un entorno cambiante y dinámico que requiere agilidad para flexibilizar el discurso comercial de forma orgánica según el buyer persona de cada contraparte. Martín maneja bien el pitch, pero tiende a apoyarse rígidamente en uno estructurado o "pasivo" en lugar de adaptarlo según el perfil del cliente. También en el entorno de trabajo en cuanto a flujos, etapas de negocio y adaptabilidad en general a la nueva forma de trabajo que tendremos, es donde por momentos se ve resistencia más que apertura al cambio.'
+  },
+];
+
+const levelText = { 4: 'Sobresaliente', 3: 'En lo esperado', 2: 'Se puede desarrollar' };
+
+const container = document.getElementById('comp-container');
+competencies.forEach(c => {
+  container.innerHTML += `
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-score-badge s${c.score}">
+          <div class="csb-val">${c.score}</div>
+          <div class="csb-of">/5</div>
+        </div>
+        <div class="comp-title-block">
+          <div class="comp-title">${c.name}</div>
+          <div class="comp-level s${c.score}">${levelText[c.score]}</div>
+        </div>
+        <div class="comp-weight">Peso<strong>${c.weight}</strong></div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-def">${c.def}</div>
+        <div class="comp-comment-label">Comentario</div>
+        <div class="comp-comment">${c.comment}</div>
+      </div>
+    </div>`;
+});
+</script>
+</body>
+</html>
